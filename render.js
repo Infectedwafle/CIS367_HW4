@@ -84,17 +84,29 @@ function render() {
 
 function createObject() {
   obj = null;
+  let height = null;
+  let radiusTop = null;
+  let radiusBottom = null;
+  let subDiv = null;
+  let stacks = null;
+
   mat4.identity(modelMat);
   switch (currSelection) {
     case 0:
-      let height = document.getElementById("cone-height").valueAsNumber;
-      let radius = document.getElementById("cone-radius").valueAsNumber;
-      let subDiv = document.getElementById("cone-subdiv").valueAsNumber;
-      console.log ("Cylinder radius: " + radius + " height: " + height + " sub division: " + subDiv);
-      obj = new Cone(gl, radius, height, subDiv);
+      height = document.getElementById("cone-height").valueAsNumber;
+      radiusBottom = document.getElementById("cone-radius").valueAsNumber;
+      subDiv = document.getElementById("cone-subdiv").valueAsNumber;
+      console.log ("Cone radius: " + radiusBottom + " height: " + height + " sub division: " + subDiv);
+      obj = new Cone(gl, radiusBottom, height, subDiv);
       break;
     case 1:
-      /* TODO: obtain user input parameters and create the object */
+      height = document.getElementById("trunc-cone-height").valueAsNumber;
+      radiusBottom = document.getElementById("trunc-cone-radius-bottom").valueAsNumber;
+      radiusTop = document.getElementById("trunc-cone-radius-top").valueAsNumber;
+      subDiv = document.getElementById("trunc-cone-subdiv").valueAsNumber;
+      stacks = document.getElementById("trunc-cone-stacks").valueAsNumber;
+      console.log ("Cylinder radius bottom: " + radiusBottom + "radius top:" + radiusTop + " height: " + height + " sub division: " + subDiv);
+      obj = new TruncCone(gl, radiusBottom, radiusTop, height, subDiv);
       break;
   }
 }

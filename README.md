@@ -6,7 +6,7 @@ Put your name next to the one you're working on.
 
 - [ ] Subdivided Cone - Nick
 - [ ] Cube
-- [ ] Truncated Cone
+- [ ] Truncated Cone - Kevin
 - [ ] Longitude divided Sphere
 - [ ] Recursive Sphere
 - [ ] Cylindrical Ring
