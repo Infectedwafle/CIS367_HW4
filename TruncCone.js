@@ -25,14 +25,17 @@ class TruncCone {
 			 so each tuple (x,y,z,r,g,b) describes the properties of a vertex
 			*/
 		 
-		for(let i = 0; i < stacks; i ++) {
+		for(let i = 0; i <= stacks; i ++) {
+			console.log("Height", height * (i/stacks));
 			vertices.push(0, 0, height * (i/stacks)); /* base of stack */
 			vec3.lerp (randColor, col1, col2, Math.random()); /* linear interpolation between two colors */
 			vertices.push(randColor[0], randColor[1], randColor[2]);
 			for (let k = 0; k < subDiv; k++) {
 				let angle = k * 2 * Math.PI / subDiv;
-				let x = radiusBottom - (i * (radiusBottom - radiusTop) / stacks) * Math.cos (angle);
-				let y = radiusBottom - (i * (radiusBottom - radiusTop) / stacks) * Math.sin (angle);
+				let stackRadius = radiusBottom - (i * ((radiusBottom - radiusTop) / stacks))
+				console.log("Stack Radius", stackRadius);
+				let x = stackRadius * Math.cos (angle);
+				let y = stackRadius * Math.sin (angle);
 
 				/* the first three floats are 3D (x,y,z) position */
 				vertices.push (x, y, height * (i/stacks)); /* perimeter of top */
@@ -41,6 +44,8 @@ class TruncCone {
 				vertices.push(randColor[0], randColor[1], randColor[2]);
 			}
 		}
+
+		//console.table(vertices);
 		/* copy the (x,y,z,r,g,b) sixtuplet into GPU buffer */
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.vbuff);
 		gl.bufferData(gl.ARRAY_BUFFER, Float32Array.from(vertices), gl.STATIC_DRAW);
