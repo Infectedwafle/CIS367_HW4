@@ -69,25 +69,35 @@ class TruncCone {
 		
 		this.indices.push({"primitive": gl.TRIANGLE_FAN, "buffer": this.bottomIdxBuff, "numPoints": bottomIndex.length});
 		
+		//generate front side of stack
 		let sideIndex = [];
-		for(let i = 0; i < stacks; i ++) {
-			
-			//generate side of stack
-			for(let j = subDiv; j >= 1; j--) {
+		//sideIndex.push(7, 1, 8, 2, 9, 3, 10, 4, 11, 5, 12, 6, 7, 1); //First row
+		for(let i = 0; i < 1; i ++) {
+			for(let j = 1; j < subDiv; j++) {
+				let currentLevel = j + (i * subDiv);
+				let nextLevel = j + ((i + 1) * subDiv) + 1;
+				console.log("i", i, currentLevel, nextLevel);
 
+				sideIndex.push(nextLevel);
+				if(currentLevel === (stacks * subDiv) + 1) {
+					sideIndex.push(currentLevel - 1);
+				} else {
+					sideIndex.push(currentLevel);
+				}
 			}
-
-			this.sideIdxBuff = gl.createBuffer();
-			gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.sideIdxBuff);
-			gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint8Array.from(sideIndex), gl.STATIC_DRAW);
-
-			this.indices.push({"primitive": gl.TRIANGLE_FAN, "buffer": this.sideIdxBuff, "numPoints": sideIndex.length});
+			sideIndex.push(((i + 1) * subDiv) + subDiv + 1);
+			sideIndex.push((i * subDiv) + 1);
 		}
+
+		this.sideIdxBuff = gl.createBuffer();
+		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.sideIdxBuff);
+		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint8Array.from(sideIndex), gl.STATIC_DRAW);
+
+		this.indices.push({"primitive": gl.TRIANGLE_STRIP, "buffer": this.sideIdxBuff, "numPoints": sideIndex.length});
 		
-		let topIndex = [];
-		
-		topIndex.push((stacks * subDiv) + 1);
 		//generate top of stack
+		let topIndex = [];
+		topIndex.push((stacks * subDiv) + 1);
 		for(let j = 2; j < subDiv + 2; j++) {
 			topIndex.push(j + (stacks * subDiv));
 		}
@@ -97,7 +107,8 @@ class TruncCone {
 		this.topIdxBuff = gl.createBuffer();
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.topIdxBuff);
 		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint8Array.from(topIndex), gl.STATIC_DRAW);
-		console.log(stacks, subDiv, bottomIndex, topIndex, vertices);
+		
+		console.log(stacks, subDiv, sideIndex);
 
 		this.indices.push({"primitive": gl.TRIANGLE_FAN, "buffer": this.topIdxBuff, "numPoints": topIndex.length});
 	}
