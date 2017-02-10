@@ -4,14 +4,15 @@
 class Cone {
   /**
    * Create a 3D cone with tip at the Z+ axis and base on the XY plane
-   * @param {Object} gl      the current WebGL context
-   * @param {Number} radius  radius of the cone base
-   * @param {Number} height  height of the cone
-   * @param {Number} subDiv  number of radial subdivision of the cone base
+   * @param {Object} gl         the current WebGL context
+   * @param {Number} radius     radius of the cone base
+   * @param {Number} height     height of the cone
+   * @param {Number} subDiv     number of radial subdivision of the cone base
+   * @param {Number} vertStacks number of vertical stacks the cone has
    * @param {vec3}   col1    color #1 to use
    * @param {vec3}   col2    color #2 to use
    */
-  constructor (gl, radius, height, subDiv, col1, col2) {
+  constructor (gl, radius, height, subDiv, vertStacks, col1, col2) {
 
     /* if colors are undefined, generate random colors */
     if (typeof col1 === "undefined") col1 = vec3.fromValues(Math.random(), Math.random(), Math.random());
@@ -20,24 +21,37 @@ class Cone {
     let vertices = [];
     this.vbuff = gl.createBuffer();
 
-    /* Instead of allocating two separate JS arrays (one for position and one for color),
-       in the following loop we pack both position and color
-       so each tuple (x,y,z,r,g,b) describes the properties of a vertex
-      */
+
     vertices.push(0,0,height); /* tip of cone */
     vec3.lerp (randColor, col1, col2, Math.random()); /* linear interpolation between two colors */
     vertices.push(randColor[0], randColor[1], randColor[2]);
-    for (let k = 0; k < subDiv; k++) {
-      let angle = k * 2 * Math.PI / subDiv;
-      let x = radius * Math.cos (angle);
-      let y = radius * Math.sin (angle);
 
-      /* the first three floats are 3D (x,y,z) position */
-      vertices.push (x, y, 0); /* perimeter of base */
-      vec3.lerp (randColor, col1, col2, Math.random()); /* linear interpolation between two colors */
-      /* the next three floats are RGB */
-      vertices.push(randColor[0], randColor[1], randColor[2]);
+
+    // Generate each stack's circle
+    for(let i = 1; i <= vertStacks; i++) {
+      let currentRadius = radius * (i/vertStacks);
+      let stackHeight = height * ((vertStacks - i) / vertStacks);
+
+      for (let k = 0; k < subDiv; k++) {
+        let angle = k * 2 * Math.PI / subDiv;
+        let x = currentRadius * Math.cos (angle);
+        let y = currentRadius * Math.sin (angle);
+
+        /* the first three floats are 3D (x,y,z) position */
+        vertices.push (x, y, stackHeight); /* perimeter of base */
+        vec3.lerp (randColor, col1, col2, Math.random()); /* linear interpolation between two colors */
+        /* the next three floats are RGB */
+        vertices.push(randColor[0], randColor[1], randColor[2]);
+      }
+
     }
+
+
+
+
+
+
+
     vertices.push (0,0,0); /* center of base */
     vec3.lerp (randColor, col1, col2, Math.random()); /* linear interpolation between two colors */
     vertices.push(randColor[0], randColor[1], randColor[2]);
@@ -45,6 +59,10 @@ class Cone {
     /* copy the (x,y,z,r,g,b) sixtuplet into GPU buffer */
     gl.bindBuffer(gl.ARRAY_BUFFER, this.vbuff);
     gl.bufferData(gl.ARRAY_BUFFER, Float32Array.from(vertices), gl.STATIC_DRAW);
+    console.log(vertices.length);
+
+
+
 
     // Generate index order for top of cone
     let topIndex = [];
@@ -56,20 +74,78 @@ class Cone {
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.topIdxBuff);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint8Array.from(topIndex), gl.STATIC_DRAW);
 
+
+
+
+
+    // Generate index order for each stack
+    this.vertStacks = {};
+
+    for(let i = 0; i < vertStacks - 1; i++) {
+      let indexArray = [];
+      let start = (subDiv * i) + 1;
+      let end = start + subDiv;
+
+      for (let k = start; k < end; k++) {
+        indexArray.push(k);
+        indexArray.push(subDiv + k);
+      }
+
+      indexArray.push(start);
+      indexArray.push(end);
+
+      let buff = gl.createBuffer();
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buff);
+      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint8Array.from(indexArray), gl.STATIC_DRAW);
+
+      this.vertStacks[i] = {
+        "primitive": gl.LINE_STRIP,
+        "buffer": buff,
+        "numPoints": indexArray.length
+      };
+
+
+
+
+    }
+
+
     // Generate index order for bottom of cone
     let botIndex = [];
-    botIndex.push(subDiv + 1);
-    for (let k = subDiv; k >= 1; k--)
+    let start = subDiv * vertStacks;
+    let end = start - (subDiv) + 1;
+    let centerPoint = start + 1;
+
+
+    botIndex.push(centerPoint);
+
+    for (let k = start; k >= end; k--) {
       botIndex.push(k);
-    botIndex.push(subDiv);
+    }
+
+    botIndex.push(start);
+
+
     this.botIdxBuff = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.botIdxBuff);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint8Array.from(botIndex), gl.STATIC_DRAW);
 
     /* Put the indices as an array of objects. Each object has three attributes:
        primitive, buffer, and numPoints */
-    this.indices = [{"primitive": gl.TRIANGLE_FAN, "buffer": this.topIdxBuff, "numPoints": topIndex.length},
-                    {"primitive": gl.TRIANGLE_FAN, "buffer": this.botIdxBuff, "numPoints": botIndex.length}];
+
+    this.indices = [
+      {"primitive": gl.TRIANGLE_FAN, "buffer": this.topIdxBuff, "numPoints": topIndex.length},
+      {"primitive": gl.TRIANGLE_FAN, "buffer": this.botIdxBuff, "numPoints": botIndex.length}
+    ];
+
+    Object.keys(this.vertStacks).forEach((k) => {
+      this.indices.push(this.vertStacks[k]);
+    });
+
+
+
+
+
   }
 
   /**

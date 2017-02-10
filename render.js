@@ -90,8 +90,9 @@ function createObject() {
       let height = document.getElementById("cone-height").valueAsNumber;
       let radius = document.getElementById("cone-radius").valueAsNumber;
       let subDiv = document.getElementById("cone-subdiv").valueAsNumber;
-      console.log ("Cylinder radius: " + radius + " height: " + height + " sub division: " + subDiv);
-      obj = new Cone(gl, radius, height, subDiv);
+      let vertStacks = document.getElementById("vert-stacks").valueAsNumber;
+      console.log ("Cylinder radius: " + radius + " height: " + height + " sub division: " + subDiv + " vertical stacks: " + vertStacks);
+      obj = new Cone(gl, radius, height, subDiv, vertStacks);
       break;
     case 1:
       /* TODO: obtain user input parameters and create the object */
