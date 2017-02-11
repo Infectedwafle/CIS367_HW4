@@ -112,7 +112,7 @@ function createObject() {
       radiusTop = document.getElementById("trunc-cone-radius-top").valueAsNumber;
       subDiv = document.getElementById("trunc-cone-subdiv").valueAsNumber;
       stacks = document.getElementById("trunc-cone-stacks").valueAsNumber;
-      console.log ("Cylinder radius bottom: " + radiusBottom + " radius top:" + radiusTop + " height: " + height + " sub division: " + subDiv);
+      console.log ("Cylinder radius bottom: " + radiusBottom + " radius top:" + radiusTop + " height: " + height + " sub division: " + subDiv + " stacks: " + stacks);
       obj = new TruncCone(gl, radiusBottom, radiusTop, height, subDiv, stacks);
       break;
   }
