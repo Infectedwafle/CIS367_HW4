@@ -93,7 +93,7 @@ class TruncCone {
 			this.sideIdxBuff = gl.createBuffer();
 			gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.sideIdxBuff);
 			gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint8Array.from(sideIndex), gl.STATIC_DRAW);
-			this.indices.push({"primitive": gl.TRIANGLE_STRIP, "buffer": this.sideIdxBuff, "numPoints": sideIndex.length});
+			this.indices.push({"primitive": gl.LINE_STRIP, "buffer": this.sideIdxBuff, "numPoints": sideIndex.length});
 		}
 
 		
