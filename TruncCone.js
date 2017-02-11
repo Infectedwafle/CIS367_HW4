@@ -73,20 +73,10 @@ class TruncCone {
 		let sideIndex = [];
 		//sideIndex.push(7, 1, 8, 2, 9, 3, 10, 4, 11, 5, 12, 6, 7, 1); //First row
 		for(let i = 0; i < 1; i ++) {
-			for(let j = 1; j < subDiv; j++) {
-				let currentLevel = j + (i * subDiv);
-				let nextLevel = j + ((i + 1) * subDiv) + 1;
-				console.log("i", i, currentLevel, nextLevel);
-
-				sideIndex.push(nextLevel);
-				if(currentLevel === (stacks * subDiv) + 1) {
-					sideIndex.push(currentLevel - 1);
-				} else {
-					sideIndex.push(currentLevel);
-				}
+			for(let j = 1; j <= subDiv; j++) {
+				let current = 
+				let next = 
 			}
-			sideIndex.push(((i + 1) * subDiv) + subDiv + 1);
-			sideIndex.push((i * subDiv) + 1);
 		}
 
 		this.sideIdxBuff = gl.createBuffer();
