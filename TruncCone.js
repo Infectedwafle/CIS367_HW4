@@ -47,7 +47,6 @@ class TruncCone {
 			}
 		}
 
-		//console.table(vertices);
 		/* copy the (x,y,z,r,g,b) sixtuplet into GPU buffer */
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.vbuff);
 		gl.bufferData(gl.ARRAY_BUFFER, Float32Array.from(vertices), gl.STATIC_DRAW);
@@ -68,7 +67,7 @@ class TruncCone {
 		
 		this.indices.push({"primitive": gl.TRIANGLE_FAN, "buffer": this.bottomIdxBuff, "numPoints": bottomIndex.length});
 		
-		//generate front side of stack
+		//generate side of stacks
 		for(let i = 0; i < stacks; i ++) {
 			let sideIndex = [];
 			for(let j = 1; j <= subDiv; j++) {
@@ -104,8 +103,6 @@ class TruncCone {
 			topIndex.push(j + (stacks * subDiv));
 		}
 		topIndex.push((stacks * subDiv) + 2);
-
-		console.log(vertices);
 
 		this.topIdxBuff = gl.createBuffer();
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.topIdxBuff);

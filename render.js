@@ -95,26 +95,26 @@ function createObject() {
   let radiusTop = null;
   let radiusBottom = null;
   let subDiv = null;
-  let stacks = null;
+  let vertStacks = null;
 
   mat4.identity(modelMat);
   switch (currSelection) {
     case 0:
-      let height = document.getElementById("cone-height").valueAsNumber;
-      let radius = document.getElementById("cone-radius").valueAsNumber;
-      let subDiv = document.getElementById("cone-subdiv").valueAsNumber;
-      let vertStacks = document.getElementById("vert-stacks").valueAsNumber;
-      console.log ("Cylinder radius: " + radius + " height: " + height + " sub division: " + subDiv + " vertical stacks: " + vertStacks);
-      obj = new Cone(gl, radius, height, subDiv, vertStacks);
+      height = document.getElementById("cone-height").valueAsNumber;
+      radiusBottom = document.getElementById("cone-radius").valueAsNumber;
+      subDiv = document.getElementById("cone-subdiv").valueAsNumber;
+      vertStacks = document.getElementById("vert-stacks").valueAsNumber;
+      //console.log ("Cylinder radius: " + radiusBottom + " height: " + height + " sub division: " + subDiv + " vertical stacks: " + vertStacks);
+      obj = new Cone(gl, radiusBottom, height, subDiv, vertStacks);
       break;
     case 1:
       height = document.getElementById("trunc-cone-height").valueAsNumber;
       radiusBottom = document.getElementById("trunc-cone-radius-bottom").valueAsNumber;
       radiusTop = document.getElementById("trunc-cone-radius-top").valueAsNumber;
       subDiv = document.getElementById("trunc-cone-subdiv").valueAsNumber;
-      stacks = document.getElementById("trunc-cone-stacks").valueAsNumber;
-      console.log ("Cylinder radius bottom: " + radiusBottom + " radius top:" + radiusTop + " height: " + height + " sub division: " + subDiv + " stacks: " + stacks);
-      obj = new TruncCone(gl, radiusBottom, radiusTop, height, subDiv, stacks);
+      vertStacks = document.getElementById("trunc-cone-stacks").valueAsNumber;
+      //console.log ("Cylinder radius bottom: " + radiusBottom + " radius top:" + radiusTop + " height: " + height + " sub division: " + subDiv + " stacks: " + vertStacks);
+      obj = new TruncCone(gl, radiusBottom, radiusTop, height, subDiv, vertStacks);
       break;
   }
 }
@@ -134,12 +134,12 @@ function menuSelected(ev) {
   paramGroup[currSelection].hidden = true;
   paramGroup[sel].hidden = false;
   currSelection = sel;
-  console.log("New selection is ", currSelection);
+  //console.log("New selection is ", currSelection);
 }
 
 function rbClicked(ev) {
   currRotationAxis = ev.currentTarget.value;
-  console.log(ev);
+  //console.log(ev);
 }
 
 function rotateControl() {

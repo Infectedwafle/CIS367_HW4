@@ -21,7 +21,6 @@ class Cone {
     let vertices = [];
     this.vbuff = gl.createBuffer();
 
-
     vertices.push(0,0,height); /* tip of cone */
     vec3.lerp (randColor, col1, col2, Math.random()); /* linear interpolation between two colors */
     vertices.push(randColor[0], randColor[1], randColor[2]);
@@ -43,14 +42,7 @@ class Cone {
         /* the next three floats are RGB */
         vertices.push(randColor[0], randColor[1], randColor[2]);
       }
-
     }
-
-
-
-
-
-
 
     vertices.push (0,0,0); /* center of base */
     vec3.lerp (randColor, col1, col2, Math.random()); /* linear interpolation between two colors */
@@ -59,10 +51,6 @@ class Cone {
     /* copy the (x,y,z,r,g,b) sixtuplet into GPU buffer */
     gl.bindBuffer(gl.ARRAY_BUFFER, this.vbuff);
     gl.bufferData(gl.ARRAY_BUFFER, Float32Array.from(vertices), gl.STATIC_DRAW);
-    console.log(vertices.length);
-
-
-
 
     // Generate index order for top of cone
     let topIndex = [];
@@ -72,11 +60,7 @@ class Cone {
     topIndex.push(1);
     this.topIdxBuff = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.topIdxBuff);
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint8Array.from(topIndex), gl.STATIC_DRAW);
-
-
-
-
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint16Array.from(topIndex), gl.STATIC_DRAW);
 
     // Generate index order for each stack
     this.vertStacks = {};
@@ -96,26 +80,20 @@ class Cone {
 
       let buff = gl.createBuffer();
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buff);
-      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint8Array.from(indexArray), gl.STATIC_DRAW);
+      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint16Array.from(indexArray), gl.STATIC_DRAW);
 
       this.vertStacks[i] = {
         "primitive": gl.LINE_STRIP,
         "buffer": buff,
         "numPoints": indexArray.length
       };
-
-
-
-
     }
-
 
     // Generate index order for bottom of cone
     let botIndex = [];
     let start = subDiv * vertStacks;
     let end = start - (subDiv) + 1;
     let centerPoint = start + 1;
-
 
     botIndex.push(centerPoint);
 
@@ -128,7 +106,7 @@ class Cone {
 
     this.botIdxBuff = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.botIdxBuff);
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint8Array.from(botIndex), gl.STATIC_DRAW);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint16Array.from(botIndex), gl.STATIC_DRAW);
 
     /* Put the indices as an array of objects. Each object has three attributes:
        primitive, buffer, and numPoints */
@@ -141,11 +119,6 @@ class Cone {
     Object.keys(this.vertStacks).forEach((k) => {
       this.indices.push(this.vertStacks[k]);
     });
-
-
-
-
-
   }
 
   /**
@@ -170,7 +143,7 @@ class Cone {
     for (let k = 0; k < this.indices.length; k++) {
       let obj = this.indices[k];
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, obj.buffer);
-      gl.drawElements(obj.primitive, obj.numPoints, gl.UNSIGNED_BYTE, 0);
+      gl.drawElements(obj.primitive, obj.numPoints, gl.UNSIGNED_SHORT, 0);
     }
   }
 }
