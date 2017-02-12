@@ -1,6 +1,3 @@
-/**
- * Created by Hans Dulimarta on 2/1/17.
- */
 class TruncCone {
 	/**
 	 * Create a 3D cone with tip at the Z+ axis and base on the XY plane

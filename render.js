@@ -96,6 +96,8 @@ function createObject() {
   let radiusBottom = null;
   let subDiv = null;
   let vertStacks = null;
+  let latLines = null;
+  let longLines = null;
 
   mat4.identity(modelMat);
   switch (currSelection) {
@@ -104,7 +106,7 @@ function createObject() {
       radiusBottom = document.getElementById("cone-radius").valueAsNumber;
       subDiv = document.getElementById("cone-subdiv").valueAsNumber;
       vertStacks = document.getElementById("vert-stacks").valueAsNumber;
-      //console.log ("Cylinder radius: " + radiusBottom + " height: " + height + " sub division: " + subDiv + " vertical stacks: " + vertStacks);
+      //console.log ("Cone radius: " + radiusBottom + " height: " + height + " sub division: " + subDiv + " vertical stacks: " + vertStacks);
       obj = new Cone(gl, radiusBottom, height, subDiv, vertStacks);
       break;
     case 1:
@@ -116,6 +118,16 @@ function createObject() {
       //console.log ("Cylinder radius bottom: " + radiusBottom + " radius top:" + radiusTop + " height: " + height + " sub division: " + subDiv + " stacks: " + vertStacks);
       obj = new TruncCone(gl, radiusBottom, radiusTop, height, subDiv, vertStacks);
       break;
+    case 2:
+      break;
+    case 3: 
+      radiusBottom = document.getElementById("sphere-radius").valueAsNumber;
+      latLines = document.getElementById("sphere-lat").valueAsNumber;
+      longLines = document.getElementById("sphere-long").valueAsNumber;
+      console.log ("Sphere radius: " + radiusBottom + " lat lines: " + latLines + " long lines: " + longLines);
+      obj = new Sphere(gl, radiusBottom, latLines, longLines);
+      break;
+
   }
 }
 
