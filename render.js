@@ -98,6 +98,7 @@ function createObject() {
   let vertStacks = null;
   let latLines = null;
   let longLines = null;
+  let recursion = null;
 
   mat4.identity(modelMat);
   switch (currSelection) {
@@ -127,7 +128,10 @@ function createObject() {
       console.log ("Sphere radius: " + radiusBottom + " lat lines: " + latLines + " long lines: " + longLines);
       obj = new Sphere(gl, radiusBottom, latLines, longLines);
       break;
-
+    case 4: 
+      recursion = document.getElementById('sphere-recursion').valueAsNumber;
+      obj = new RecursiveSphere(gl, recursion);
+      break;
   }
 }
 

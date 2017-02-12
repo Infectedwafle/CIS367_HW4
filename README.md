@@ -8,6 +8,6 @@ Put your name next to the one you're working on.
 - [ ] Cube - Nick
 - [x] Truncated Cone - Complete
 - [x] Longitude divided Sphere - Complete
-- [ ] Recursive Sphere - Kevin
-- [ ] Cylindrical Ring
+- [x] Recursive Sphere - Complete
+- [ ] Cylindrical Ring - Kevin
 - [ ] Torus
