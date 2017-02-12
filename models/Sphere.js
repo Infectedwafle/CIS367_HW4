@@ -22,12 +22,12 @@ class Sphere {
 			 so each tuple (x,y,z,r,g,b) describes the properties of a vertex
 			*/
 		 
-		for(let i = 0; i < latLines; i ++) {
+		for(let i = 0; i <= latLines; i ++) {
 			let theta = i * Math.PI / latLines;
 			let sinTheta = Math.sin(theta);
 			let cosTheta = Math.cos(theta);
 
-			for (let k = 0; k < longLines; k++) {
+			for (let k = 0; k <= longLines; k++) {
 				let phi = k * 2 * Math.PI / longLines;
 				let sinPhi = Math.sin(phi);
 				let cosPhi = Math.cos(phi);
@@ -49,20 +49,21 @@ class Sphere {
 		
 		this.indices = [];
 		
-		let sideIndex = [];
+		let indexData = [];
 		//generate side of stacks
-		for(let i = 0; i < latLines * longLines; i ++) {
-			sideIndex.push(i);
-			// for(let j = 1; j <= subDiv; j++) {
-				
-			// }
-
+		for(let i = 0; i < latLines; i ++) {
+			for(let j = 0; j < longLines; j++) {
+				let first = (i * (longLines + 1)) + j;
+				let second = first + longLines + 1;
+				indexData.push(first, second, first + 1);
+				indexData.push(second, second + 1, first + 1);
+			}
 		}
-		console.log(vertices);
-		this.sideIdxBuff = gl.createBuffer();
-		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.sideIdxBuff);
-		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint16Array.from(sideIndex), gl.STATIC_DRAW);
-		this.indices.push({"primitive": gl.LINE_STRIP, "buffer": this.sideIdxBuff, "numPoints": sideIndex.length});
+
+		this.idxBuff = gl.createBuffer();
+		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.idxBuff);
+		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint16Array.from(indexData), gl.STATIC_DRAW);
+		this.indices.push({"primitive": gl.LINE_STRIP, "buffer": this.idxBuff, "numPoints": indexData.length});
 	}
 
 	/**
