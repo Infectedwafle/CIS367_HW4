@@ -4,10 +4,10 @@
 
 Put your name next to the one you're working on.
 
-- [ ] Subdivided Cone - On different branch
+- [x] Subdivided Cone - Complete
 - [ ] Cube - Nick
-- [ ] Truncated Cone
-- [ ] Longitude divided Sphere
+- [x] Truncated Cone - Complete
+- [ ] Longitude divided Sphere - Kevin
 - [ ] Recursive Sphere
 - [ ] Cylindrical Ring
 - [ ] Torus
