@@ -67,10 +67,8 @@ class RecursiveSphere {
 			vertices: vertices
 		};
 
-		console.log(recursionLevel);
 		while(recursionLevel-- > 0) {
 			model = this.subDivide(model);
-			console.log(model.faces.length);
 		}
 
 		let newVertices = model.vertices;
@@ -87,8 +85,6 @@ class RecursiveSphere {
 		for (var i = 0; i < newFaces.length; i++) {
 		    indexData.push(newFaces[i][0], newFaces[i][1], newFaces[i][2]);
 		}
-
-		console.log(indexData.length, vertices.length);
 
 		/* copy the (x,y,z,r,g,b) sixtuplet into GPU buffer */
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.vbuff);
