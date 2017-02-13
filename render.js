@@ -34,6 +34,15 @@ function main() {
   paramGroup = document.getElementsByClassName("param-group");
   paramGroup[0].hidden = false;
 
+
+  let elements = document.getElementsByClassName('slider');
+  for(i=0; i <elements.length; i++) {
+    let element = elements[i];
+    element.addEventListener("input", sliderSlid);
+    setElementText(element.id + "-value", element.valueAsNumber);
+  }
+
+
   /* setup window resize listener */
   window.addEventListener('resize', resizeWindow);
 
@@ -96,6 +105,7 @@ function createObject() {
   let radiusBottom = null;
   let subDiv = null;
   let stacks = null;
+  let size = null;
 
   mat4.identity(modelMat);
   switch (currSelection) {
@@ -114,6 +124,12 @@ function createObject() {
       stacks = document.getElementById("trunc-cone-stacks").valueAsNumber;
       console.log ("Cylinder radius bottom: " + radiusBottom + " radius top:" + radiusTop + " height: " + height + " sub division: " + subDiv);
       obj = new TruncCone(gl, radiusBottom, radiusTop, height, subDiv, stacks);
+      break;
+    case 2:
+      size = document.getElementById("cube-size").valueAsNumber;
+      subDiv = document.getElementById("cube-subdiv").valueAsNumber;
+      console.log ("Cube size: " + size + " sub division: " + subDiv);
+      obj = new Cube(gl, size, subDiv);
       break;
   }
 }
@@ -139,6 +155,16 @@ function menuSelected(ev) {
 function rbClicked(ev) {
   currRotationAxis = ev.currentTarget.value;
   console.log(ev);
+}
+
+function sliderSlid(ev) {
+  setElementText(ev.target.id + "-value", ev.target.valueAsNumber);
+}
+
+function setElementText(id, value) {
+  el = document.getElementById(id);
+  if(el === null) { return; }
+  el.innerHTML = value;
 }
 
 function rotateControl() {

@@ -7,6 +7,7 @@
   <script src="shader-utils.js"></script>
   <script src="gl-matrix-min.js"></script>
   <script src="Cone.js"></script>
+  <script src="Cube.js"></script>
   <script src="TruncCone.js"></script>
   <script src="render.js"></script>
   <style>
@@ -42,23 +43,24 @@
   <div class="param-group" hidden>
     Cone parameters:
     <ul>
-      <li>Height 0.2 <input id="cone-height" type="range" min="0.2" max="0.9" step="0.05" value="0.5"> 0.9</li>
-      <li>Radius 0.2 <input id="cone-radius" type="range" min="0.2" max="0.5" step="0.05" value="0.3"> 0.8</li>
-      <li>Sub division 6 <input id="cone-subdiv" type="range" min="6" max="30" step="1" value="12"> 30</li>
+      <li>Height 0.2 <input id="cone-height" class="slider" type="range" min="0.2" max="0.9" step="0.05" value="0.5"> 0.9 -- <span id="cone-height-value"></span></li>
+      <li>Radius 0.2 <input id="cone-radius" class="slider" type="range" min="0.2" max="0.8" step="0.05" value="0.3"> 0.8 -- <span id="cone-radius-value"></span></li>
+      <li>Sub division 6 <input id="cone-subdiv" class="slider" type="range" min="6" max="30" step="1" value="12"> 30 -- <span id="cone-subdiv-value"></span></li>
       <!-- TODO: add input for vertical subdivision -->
     </ul>
   </div>
   <div class="param-group" hidden>
     Cylinder parameters:
-      <li>Height 0.2 <input id="trunc-cone-height" type="range" min="0.2" max="0.9" step="0.05" value="0.5"> 0.9</li>
-      <li>Top Radius 0.2 <input id="trunc-cone-radius-top" type="range" min="0.0" max="0.5" step="0.05" value="0.3"> 0.8</li>
-      <li>Bottom Radius 0.2 <input id="trunc-cone-radius-bottom" type="range" min="0.0" max="0.5" step="0.05" value="0.3"> 0.8</li>
-      <li>Sub Division 6 <input id="trunc-cone-subdiv" type="range" min="6" max="30" step="1" value="6"> 30</li>
-      <li>stacks 1 <input id="trunc-cone-stacks" type="range" min="1" max="30" step="1" value="3"> 30</li>
+      <li>Height 0.2 <input id="trunc-cone-height" class="slider" type="range" min="0.2" max="0.9" step="0.05" value="0.5"> 0.9</li>
+      <li>Top Radius 0.2 <input id="trunc-cone-radius-top" class="slider" type="range" min="0.0" max="0.5" step="0.05" value="0.3"> 0.8</li>
+      <li>Bottom Radius 0.2 <input id="trunc-cone-radius-bottom" class="slider" type="range" min="0.0" max="0.5" step="0.05" value="0.3"> 0.8</li>
+      <li>Sub Division 6 <input id="trunc-cone-subdiv" class="slider" type="range" min="6" max="30" step="1" value="6"> 30</li>
+      <li>stacks 1 <input id="trunc-cone-stacks" class="slider" type="range" min="1" max="30" step="1" value="3"> 30</li>
   </div>
   <div class="param-group" hidden>
     Cube parameters:
-    <!-- TODO: add your input tags here -->
+      <li>Size 0.5 <input id="cube-size" class="slider" type="range" min="0.5" max="1" step="0.1" value="0.7"> 1 -- <span id="cube-size-value"></span></li>
+      <li>Sub Division 1 <input id="cube-subdiv" class="slider" type="range" min="1" max="10" step="1" value="2"> 10 -- <span id="cube-subdiv-value"></span></li>
   </div>
   <div class="param-group" hidden>
     Sphere parameters:
