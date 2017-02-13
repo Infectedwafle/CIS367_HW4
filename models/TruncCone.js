@@ -1,6 +1,3 @@
-/**
- * Created by Hans Dulimarta on 2/1/17.
- */
 class TruncCone {
 	/**
 	 * Create a 3D cone with tip at the Z+ axis and base on the XY plane
@@ -27,28 +24,26 @@ class TruncCone {
 		 
 		for(let i = 0; i <= stacks; i ++) {
 			let stackHeight = height * (i/stacks);
-
+			let stackRadius = radiusBottom - (i * ((radiusBottom - radiusTop) / stacks));
 			if(i === 0 || i === stacks) {
-				vertices.push(0, 0, stackHeight); /* base of stack */
+				vertices.push(0, 0, stackHeight);
 				vec3.lerp (randColor, col1, col2, Math.random()); /* linear interpolation between two colors */
 				vertices.push(randColor[0], randColor[1], randColor[2]);
 			}
 
 			for (let k = 0; k < subDiv; k++) {
 				let angle = k * 2 * Math.PI / subDiv;
-				let stackRadius = radiusBottom - (i * ((radiusBottom - radiusTop) / stacks));
 				let x = stackRadius * Math.cos (angle);
 				let y = stackRadius * Math.sin (angle);
 
 				/* the first three floats are 3D (x,y,z) position */
-				vertices.push (x, y, stackHeight); /* perimeter of top */
+				vertices.push (x, y, stackHeight); 
 				vec3.lerp (randColor, col1, col2, Math.random()); /* linear interpolation between two colors */
 				/* the next three floats are RGB */
 				vertices.push(randColor[0], randColor[1], randColor[2]);
 			}
 		}
 
-		//console.table(vertices);
 		/* copy the (x,y,z,r,g,b) sixtuplet into GPU buffer */
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.vbuff);
 		gl.bufferData(gl.ARRAY_BUFFER, Float32Array.from(vertices), gl.STATIC_DRAW);
@@ -65,35 +60,38 @@ class TruncCone {
 
 		this.bottomIdxBuff = gl.createBuffer();
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.bottomIdxBuff);
-		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint8Array.from(bottomIndex), gl.STATIC_DRAW);
+		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint16Array.from(bottomIndex), gl.STATIC_DRAW);
 		
 		this.indices.push({"primitive": gl.TRIANGLE_FAN, "buffer": this.bottomIdxBuff, "numPoints": bottomIndex.length});
 		
-		//generate front side of stack
-		let sideIndex = [];
-		//sideIndex.push(7, 1, 8, 2, 9, 3, 10, 4, 11, 5, 12, 6, 7, 1); //First row
-		for(let i = 0; i < 1; i ++) {
-			for(let j = 1; j < subDiv; j++) {
-				let currentLevel = j + (i * subDiv);
-				let nextLevel = j + ((i + 1) * subDiv) + 1;
-				console.log("i", i, currentLevel, nextLevel);
+		//generate side of stacks
+		for(let i = 0; i < stacks; i ++) {
+			let sideIndex = [];
+			for(let j = 1; j <= subDiv; j++) {
+				let nextLevel = ((i  + 1) * subDiv) + j;
+				let currentLevel = (i * subDiv) + j;
 
-				sideIndex.push(nextLevel);
-				if(currentLevel === (stacks * subDiv) + 1) {
-					sideIndex.push(currentLevel - 1);
-				} else {
-					sideIndex.push(currentLevel);
+				if(i === stacks - 1) {
+					nextLevel++;
 				}
+				sideIndex.push(nextLevel, currentLevel); 
 			}
-			sideIndex.push(((i + 1) * subDiv) + subDiv + 1);
-			sideIndex.push((i * subDiv) + 1);
+
+			let nextLevelLast = ((i  + 1) * subDiv) + 1;
+			let currentLevelLast = (i * subDiv) + 1;
+
+			if(i === stacks - 1) {
+				nextLevelLast++;
+			}
+
+			sideIndex.push(nextLevelLast, currentLevelLast);
+
+			this.sideIdxBuff = gl.createBuffer();
+			gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.sideIdxBuff);
+			gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint16Array.from(sideIndex), gl.STATIC_DRAW);
+			this.indices.push({"primitive": gl.LINE_STRIP, "buffer": this.sideIdxBuff, "numPoints": sideIndex.length});
 		}
 
-		this.sideIdxBuff = gl.createBuffer();
-		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.sideIdxBuff);
-		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint8Array.from(sideIndex), gl.STATIC_DRAW);
-
-		this.indices.push({"primitive": gl.TRIANGLE_STRIP, "buffer": this.sideIdxBuff, "numPoints": sideIndex.length});
 		
 		//generate top of stack
 		let topIndex = [];
@@ -103,12 +101,9 @@ class TruncCone {
 		}
 		topIndex.push((stacks * subDiv) + 2);
 
-
 		this.topIdxBuff = gl.createBuffer();
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.topIdxBuff);
-		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint8Array.from(topIndex), gl.STATIC_DRAW);
-		
-		console.log(stacks, subDiv, sideIndex);
+		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint16Array.from(topIndex), gl.STATIC_DRAW);
 
 		this.indices.push({"primitive": gl.TRIANGLE_FAN, "buffer": this.topIdxBuff, "numPoints": topIndex.length});
 	}
@@ -135,7 +130,7 @@ class TruncCone {
 		for (let k = 0; k < this.indices.length; k++) {
 			let obj = this.indices[k];
 			gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, obj.buffer);
-			gl.drawElements(obj.primitive, obj.numPoints, gl.UNSIGNED_BYTE, 0);
+			gl.drawElements(obj.primitive, obj.numPoints, gl.UNSIGNED_SHORT, 0);
 		}
 	}
 }

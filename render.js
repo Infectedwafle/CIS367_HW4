@@ -106,6 +106,10 @@ function createObject() {
   let subDiv = null;
   let stacks = null;
   let size = null;
+  let vertStacks = null;
+  let latLines = null;
+  let longLines = null;
+  let recursion = null;
 
   mat4.identity(modelMat);
   switch (currSelection) {
@@ -113,23 +117,31 @@ function createObject() {
       height = document.getElementById("cone-height").valueAsNumber;
       radiusBottom = document.getElementById("cone-radius").valueAsNumber;
       subDiv = document.getElementById("cone-subdiv").valueAsNumber;
-      console.log ("Cone radius: " + radiusBottom + " height: " + height + " sub division: " + subDiv);
-      obj = new Cone(gl, radiusBottom, height, subDiv);
+      vertStacks = document.getElementById("vert-stacks").valueAsNumber;
+      obj = new Cone(gl, radiusBottom, height, subDiv, vertStacks);
       break;
     case 1:
       height = document.getElementById("trunc-cone-height").valueAsNumber;
       radiusBottom = document.getElementById("trunc-cone-radius-bottom").valueAsNumber;
       radiusTop = document.getElementById("trunc-cone-radius-top").valueAsNumber;
       subDiv = document.getElementById("trunc-cone-subdiv").valueAsNumber;
-      stacks = document.getElementById("trunc-cone-stacks").valueAsNumber;
-      console.log ("Cylinder radius bottom: " + radiusBottom + " radius top:" + radiusTop + " height: " + height + " sub division: " + subDiv);
-      obj = new TruncCone(gl, radiusBottom, radiusTop, height, subDiv, stacks);
+      vertStacks = document.getElementById("trunc-cone-stacks").valueAsNumber;
+      obj = new TruncCone(gl, radiusBottom, radiusTop, height, subDiv, vertStacks);
       break;
     case 2:
       size = document.getElementById("cube-size").valueAsNumber;
       subDiv = document.getElementById("cube-subdiv").valueAsNumber;
-      console.log ("Cube size: " + size + " sub division: " + subDiv);
       obj = new Cube(gl, size, subDiv);
+      break;
+    case 3:
+      radiusBottom = document.getElementById("sphere-radius").valueAsNumber;
+      latLines = document.getElementById("sphere-lat").valueAsNumber;
+      longLines = document.getElementById("sphere-long").valueAsNumber;
+      obj = new Sphere(gl, radiusBottom, latLines, longLines);
+      break;
+    case 4:
+      recursion = document.getElementById('sphere-recursion').valueAsNumber;
+      obj = new RecursiveSphere(gl, recursion);
       break;
   }
 }
@@ -149,12 +161,10 @@ function menuSelected(ev) {
   paramGroup[currSelection].hidden = true;
   paramGroup[sel].hidden = false;
   currSelection = sel;
-  console.log("New selection is ", currSelection);
 }
 
 function rbClicked(ev) {
   currRotationAxis = ev.currentTarget.value;
-  console.log(ev);
 }
 
 function sliderSlid(ev) {
