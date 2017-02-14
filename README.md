@@ -18,4 +18,5 @@ Put your name next to the one you're working on.
 - [ ] Test each shape's max/min values to assure it doesn't overlow the view space
 - [ ] Fix Ring's minimum vert stack collapse
 - [ ] Check line 58 of cube to make sure two faces aren't generated at 0 degree rotation
+- [ ] Fix random lines in recursive sphere
 - [ ] If everything is done, insert a toggle for wireframe mode
