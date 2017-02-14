@@ -9,5 +9,5 @@ Put your name next to the one you're working on.
 - [x] Truncated Cone - Complete
 - [x] Longitude divided Sphere - Complete
 - [x] Recursive Sphere - Complete
-- [ ] Cylindrical Ring - Nick
-- [ ] Torus
+- [x] Cylindrical Ring - Complete
+- [ ] Torus - Nick
