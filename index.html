@@ -13,6 +13,7 @@
   <script src="models/Sphere.js"></script>
   <script src="models/RecursiveSphere.js"></script>
   <script src="models/Ring.js"></script>
+  <script src="models/Torus.js"></script>
 
   <script src="render.js"></script>
   <style>
@@ -87,7 +88,12 @@
   </div>
   <div class="param-group" hidden>
     Torus parameters:
-    <!-- TODO: add your input tags here -->
+    <ul>
+      <li>Torus Radius 0.5 <input id="torus-radius" class="slider" type="range" min="0.5" max="0.8" step="0.05" value="0.5"> 0.8 -- <span id="torus-radius-value"></span></li>
+      <li>Tube Radius 0.1 <input id="torus-tube-radius" class="slider" type="range" min="0.1" max="0.4" step="0.05" value="0.2"> 0.4 -- <span id="torus-tube-radius-value"></span></li>
+      <li>Longitude Lines 4 <input id="torus-longitude-lines" class="slider" type="range" min="4" max="100" step="1" value="4"> 100 -- <span id="torus-longitude-lines-value"></span></li>
+      <li>Sub Division 6 <input id="torus-subdiv" class="slider" type="range" min="6" max="100" step="1" value="6"> 100 -- <span id="torus-subdiv-value"></span></li>
+    </ul>
   </div>
   <div class="param-group" hidden>
     Ring parameters:

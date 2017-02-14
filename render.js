@@ -101,8 +101,12 @@ function render() {
 function createObject() {
   obj = null;
   let height = null;
+
   let radiusBottom = null;
   let radiusTop = null;
+  let radius = null;
+  let tubeRadius = null;
+
   let subDiv = null;
   let vertStacks = null;
   let size = null;
@@ -145,7 +149,11 @@ function createObject() {
       obj = new RecursiveSphere(gl, recursion);
       break;
     case 5:
-      console.log("torus");
+      radius = document.getElementById('torus-radius').valueAsNumber;
+      tubeRadius = document.getElementById('torus-tube-radius').valueAsNumber;
+      vertStacks = document.getElementById('torus-longitude-lines').valueAsNumber;
+      subDiv = document.getElementById('torus-subdiv').valueAsNumber;
+      obj = new Torus(gl, radius, tubeRadius, vertStacks, subDiv);
       break;
     case 6:
       innerRadius = document.getElementById('ring-inner-radius').valueAsNumber;
