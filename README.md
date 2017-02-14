@@ -5,9 +5,9 @@
 Put your name next to the one you're working on.
 
 - [x] Subdivided Cone - Complete
-- [ ] Cube - Nick
+- [x] Cube - Complete
 - [x] Truncated Cone - Complete
 - [x] Longitude divided Sphere - Complete
 - [x] Recursive Sphere - Complete
-- [ ] Cylindrical Ring - Kevin
+- [ ] Cylindrical Ring - Nick
 - [ ] Torus
