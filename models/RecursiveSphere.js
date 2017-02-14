@@ -19,7 +19,7 @@ class RecursiveSphere {
        so each tuple (x,y,z,r,g,b) describes the properties of a vertex
        */
 
-    let t = (.5 + Math.sqrt(5)) / 2;
+    let t = (1 + Math.sqrt(5)) / 2;
     vertices.push([-1, t, 0]);
     vertices.push([1, t, 0]);
     vertices.push([-1, -t, 0]);
@@ -76,27 +76,23 @@ class RecursiveSphere {
       vec3.lerp (randColor, col1, col2, Math.random());
       vertices.push(randColor[0], randColor[1], randColor[2]);
     }
-
-    let indexData = [];
-    let newFaces = model.faces;
-    for (var i = 0; i < newFaces.length; i++) {
-      indexData.push(newFaces[i][0], newFaces[i][1], newFaces[i][2]);
-    }
-
     /* copy the (x,y,z,r,g,b) sixtuplet into GPU buffer */
     gl.bindBuffer(gl.ARRAY_BUFFER, this.vbuff);
     gl.bufferData(gl.ARRAY_BUFFER, Float32Array.from(vertices), gl.STATIC_DRAW);
 
     this.indices = [];
-
-    this.idxBuff = gl.createBuffer();
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.idxBuff);
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint16Array.from(indexData), gl.STATIC_DRAW);
-    this.indices.push({"primitive": gl.LINE_STRIP, "buffer": this.idxBuff, "numPoints": indexData.length});
+    let newFaces = model.faces;
+    for (var i = 0; i < newFaces.length; i++) {
+      let indexData = [];
+      indexData.push(newFaces[i][0], newFaces[i][1], newFaces[i][2]);
+      this.idxBuff = gl.createBuffer();
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.idxBuff);
+      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint16Array.from(indexData), gl.STATIC_DRAW);
+      this.indices.push({"primitive": gl.LINE_LOOP, "buffer": this.idxBuff, "numPoints": indexData.length});
+    }
   }
 
   subDivide(model) {
-    console.log('called');
     let vertices = model.vertices;
     let faces = model.faces;
 
@@ -156,9 +152,9 @@ class RecursiveSphere {
       }
 
       newFaces.push([v0i, ai, ci])
-        newFaces.push([v1i, bi, ai])
-        newFaces.push([v2i, ci, bi])
-        newFaces.push([ai, bi, ci])
+      newFaces.push([v1i, bi, ai])
+      newFaces.push([v2i, ci, bi])
+      newFaces.push([ai, bi, ci])
     }
 
     return {
