@@ -1,6 +1,9 @@
 class Torus {
   /**
-   * Create a 3D cone with tip at the Z+ axis and base on the XY plane
+   * Create a 3D Torus with specified radius of the torus, a tube radius,
+   * vertical stacks going longitudinally, and then sub divides going
+   * latitudinally
+   *
    * @param {Object} gl           the current WebGL context
    * @param {Number} innerRadius  inner radius of the ring
    * @param {Number} outerRadius  outer radius of the ring
@@ -23,7 +26,7 @@ class Torus {
 
 
     // Generate one of the tube's circles by rotating one point
-    // around the center
+    // around the center of the tube
 
     let centerPoint = vec3.fromValues(radius, 0, 0);
     let firstOuterRingPoint = vec3.fromValues(radius + tubeRadius, 0, 0);
@@ -85,8 +88,8 @@ class Torus {
 
 
       this.vertStacks[i] = {
-        //"primitive": gl.TRIANGLE_STRIP,
-        "primitive": gl.LINE_STRIP,
+        "primitive": gl.TRIANGLE_STRIP,
+        //"primitive": gl.LINE_STRIP,
         "buffer": buff,
         "numPoints": index.length
       };
@@ -111,8 +114,8 @@ class Torus {
 
 
     this.vertStacks[subDiv] = {
-      //"primitive": gl.TRIANGLE_STRIP,
-      "primitive": gl.LINE_STRIP,
+      "primitive": gl.TRIANGLE_STRIP,
+      //"primitive": gl.LINE_STRIP,
       "buffer": buff,
       "numPoints": index.length
     };
