@@ -10,7 +10,7 @@ Put your name next to the one you're working on.
 - [x] Longitude divided Sphere - Complete
 - [x] Recursive Sphere - Complete
 - [x] Cylindrical Ring - Complete
-- [ ] Torus - Nick
+- [x] Torus - Nick
 
 ## TODO
 
