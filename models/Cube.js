@@ -108,7 +108,8 @@ class Cube {
           gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint16Array.from(faceSquareIndex), gl.STATIC_DRAW);
 
           this.indices.push({
-            "primitive": gl.TRIANGLE_STRIP,
+            //"primitive": gl.TRIANGLE_STRIP,
+            "primitive": gl.LINE_STRIP,
             "buffer": faceIdxBuff,
             "numPoints": faceSquareIndex.length
           });

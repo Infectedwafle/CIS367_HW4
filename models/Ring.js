@@ -1,6 +1,8 @@
 class Ring {
   /**
-   * Create a 3D cone with tip at the Z+ axis and base on the XY plane
+   * Create a 3D Ring, given inner radius and outer radius, along with height,
+   * vertical stacks, and sub divisions
+   *
    * @param {Object} gl           the current WebGL context
    * @param {Number} innerRadius  inner radius of the ring
    * @param {Number} outerRadius  outer radius of the ring
@@ -108,8 +110,8 @@ class Ring {
       gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint16Array.from(outerIndexArray), gl.STATIC_DRAW);
 
       this.vertStacks[i] = {
-        //"primitive": gl.TRIANGLE_STRIP,
-        "primitive": gl.LINE_STRIP,
+        "primitive": gl.TRIANGLE_STRIP,
+        //"primitive": gl.LINE_STRIP,
         "buffer": buff,
         "numPoints": outerIndexArray.length
       };
@@ -138,8 +140,8 @@ class Ring {
       gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint16Array.from(innerIndexArray), gl.STATIC_DRAW);
 
       this.vertStacks[i+vertStacks] = {
-        //"primitive": gl.TRIANGLE_STRIP,
-        "primitive": gl.LINE_STRIP,
+        "primitive": gl.TRIANGLE_STRIP,
+        //"primitive": gl.LINE_STRIP,
         "buffer": innerBuff,
         "numPoints": innerIndexArray.length
       };
