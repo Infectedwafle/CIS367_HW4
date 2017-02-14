@@ -101,15 +101,16 @@ function render() {
 function createObject() {
   obj = null;
   let height = null;
-  let radiusTop = null;
   let radiusBottom = null;
+  let radiusTop = null;
   let subDiv = null;
-  let stacks = null;
-  let size = null;
   let vertStacks = null;
+  let size = null;
   let latLines = null;
   let longLines = null;
   let recursion = null;
+  let innerRadius = null;
+  let outerRadius = null;
 
   mat4.identity(modelMat);
   switch (currSelection) {
@@ -142,6 +143,17 @@ function createObject() {
     case 4:
       recursion = document.getElementById('sphere-recursion').valueAsNumber;
       obj = new RecursiveSphere(gl, recursion);
+      break;
+    case 5:
+      console.log("torus");
+      break;
+    case 6:
+      innerRadius = document.getElementById('ring-inner-radius').valueAsNumber;
+      outerRadius = document.getElementById('ring-outer-radius').valueAsNumber;
+      height = document.getElementById('ring-height').valueAsNumber;
+      vertStacks = document.getElementById('ring-vertical-stacks').valueAsNumber;
+      subDiv = document.getElementById('ring-subdiv').valueAsNumber;
+      obj = new Ring(gl, innerRadius, outerRadius, height, vertStacks, subDiv);
       break;
   }
 }
