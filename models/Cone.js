@@ -9,7 +9,7 @@ class Cone {
    * @param {vec3}   col1    color #1 to use
    * @param {vec3}   col2    color #2 to use
    */
-  constructor (gl, radius, height, subDiv, vertStacks, col1, col2) {
+  constructor (gl, radius, height, subDiv, vertStacks, primitive1, primitive2, col1, col2) {
 
     /* if colors are undefined, generate random colors */
     if (typeof col1 === "undefined") col1 = vec3.fromValues(Math.random(), Math.random(), Math.random());
@@ -80,7 +80,7 @@ class Cone {
       gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint16Array.from(indexArray), gl.STATIC_DRAW);
 
       this.vertStacks[i] = {
-        "primitive": gl.LINE_STRIP,
+        "primitive": primitive1,
         "buffer": buff,
         "numPoints": indexArray.length
       };
@@ -109,8 +109,8 @@ class Cone {
        primitive, buffer, and numPoints */
 
     this.indices = [
-      {"primitive": gl.TRIANGLE_FAN, "buffer": this.topIdxBuff, "numPoints": topIndex.length},
-      {"primitive": gl.TRIANGLE_FAN, "buffer": this.botIdxBuff, "numPoints": botIndex.length}
+      {"primitive": primitive2, "buffer": this.topIdxBuff, "numPoints": topIndex.length},
+      {"primitive": primitive2, "buffer": this.botIdxBuff, "numPoints": botIndex.length}
     ];
 
     Object.keys(this.vertStacks).forEach((k) => {

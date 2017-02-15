@@ -13,7 +13,7 @@ class Torus {
    * @param {vec3}   col1         color #1 to use
    * @param {vec3}   col2         color #2 to use
    */
-  constructor (gl, radius, tubeRadius, vertStacks, subDiv, col1, col2) {
+  constructor (gl, radius, tubeRadius, vertStacks, subDiv, primitive1, primitive2, col1, col2) {
 
     /* if colors are undefined, generate random colors */
     if (typeof col1 === "undefined") col1 = vec3.fromValues(Math.random(), Math.random(), Math.random());
@@ -88,8 +88,7 @@ class Torus {
 
 
       this.vertStacks[i] = {
-        "primitive": gl.TRIANGLE_STRIP,
-        //"primitive": gl.LINE_STRIP,
+        "primitive": primitive1,
         "buffer": buff,
         "numPoints": index.length
       };
@@ -114,8 +113,7 @@ class Torus {
 
 
     this.vertStacks[subDiv] = {
-      "primitive": gl.TRIANGLE_STRIP,
-      //"primitive": gl.LINE_STRIP,
+      "primitive": primitive2,
       "buffer": buff,
       "numPoints": index.length
     };

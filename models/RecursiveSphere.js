@@ -6,7 +6,7 @@ class RecursiveSphere {
    * @param {vec3}   col1           color #1 to use
    * @param {vec3}   col2           color #2 to use
    */
-  constructor (gl, recursionLevel = 1, col1, col2) {
+  constructor (gl, recursionLevel = 1, primitive1, col1, col2) {
     /* if colors are undefined, generate random colors */
     if (typeof col1 === "undefined") col1 = vec3.fromValues(Math.random(), Math.random(), Math.random());
     if (typeof col2 === "undefined") col2 = vec3.fromValues(Math.random(), Math.random(), Math.random());
@@ -88,7 +88,7 @@ class RecursiveSphere {
       this.idxBuff = gl.createBuffer();
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.idxBuff);
       gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint16Array.from(indexData), gl.STATIC_DRAW);
-      this.indices.push({"primitive": gl.LINE_LOOP, "buffer": this.idxBuff, "numPoints": indexData.length});
+      this.indices.push({"primitive": primitive1, "buffer": this.idxBuff, "numPoints": indexData.length});
     }
   }
 

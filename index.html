@@ -105,16 +105,45 @@
       <li>Sub Division 6 <input id="ring-subdiv" class="slider" type="range" min="6" max="100" step="1" value="6"> 100 -- <span id="ring-subdiv-value"></span></li>
     </ul>
   </div>
-
-  <label>
-    Axis of rotation:
-    <input type="radio" name="rotateGroup" value="rotx" checked> X
-    <input type="radio" name="rotateGroup" value="roty"> Y
-    <input type="radio" name="rotateGroup" value="rotz"> Z
-  </label>
-  <button id="rotate">
-    Rotate
-  </button>
+  <div>
+    <label>
+      Axis of rotation:
+      <input type="radio" name="rotateGroup" value="rotx" checked> X
+      <input type="radio" name="rotateGroup" value="roty"> Y
+      <input type="radio" name="rotateGroup" value="rotz"> Z
+    </label>
+  </div>
+  <div style='display: inline-flex'>    
+    <label>
+      Primitive1:
+        <ul>
+          <li><input type="radio" name="primitiveGroup1" value="POINTS" checked> POINTS</li>
+          <li><input type="radio" name="primitiveGroup1" value="LINE"> LINE</li>
+          <li><input type="radio" name="primitiveGroup1" value="LINE_STRIP"> LINE_STRIP</li>
+          <li><input type="radio" name="primitiveGroup1" value="LINE_LOOP"> LINE_LOOP</li>
+          <li><input type="radio" name="primitiveGroup1" value="TRIANGLES"> TRIANGLE</li>
+          <li><input type="radio" name="primitiveGroup1" value="TRIANGLE_STRIP"> TRIANGLE_STRIP</li>
+          <li><input type="radio" name="primitiveGroup1" value="TRIANGLE_FAN"> TRIANGLE_FAN</li>
+        </ul>
+    </label>
+     <label>
+      Primitive2:
+        <ul>
+          <li><input type="radio" name="primitiveGroup2" value="POINTS" checked> POINTS</li>
+          <li><input type="radio" name="primitiveGroup2" value="LINE"> LINE</li>
+          <li><input type="radio" name="primitiveGroup2" value="LINE_STRIP"> LINE_STRIP</li>
+          <li><input type="radio" name="primitiveGroup2" value="LINE_LOOP"> LINE_LOOP</li>
+          <li><input type="radio" name="primitiveGroup2" value="TRIANGLES"> TRIANGLE</li>
+          <li><input type="radio" name="primitiveGroup2" value="TRIANGLE_STRIP"> TRIANGLE_STRIP</li>
+          <li><input type="radio" name="primitiveGroup2" value="TRIANGLE_FAN"> TRIANGLE_FAN</li>
+        </ul>
+    </label>
+  </div>
+  <div>
+    <button id="rotate">
+      Rotate
+    </button>
+  </div>
 </div>
 <canvas id="gl-canvas"></canvas>
 </body>

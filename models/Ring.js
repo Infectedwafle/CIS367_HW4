@@ -12,7 +12,7 @@ class Ring {
    * @param {vec3}   col1         color #1 to use
    * @param {vec3}   col2         color #2 to use
    */
-  constructor (gl, innerRadius, outerRadius, height, vertStacks, subDiv, col1, col2) {
+  constructor (gl, innerRadius, outerRadius, height, vertStacks, subDiv, primitive1, primitive2, col1, col2) {
 
     /* if colors are undefined, generate random colors */
     if (typeof col1 === "undefined") col1 = vec3.fromValues(Math.random(), Math.random(), Math.random());
@@ -110,8 +110,7 @@ class Ring {
       gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint16Array.from(outerIndexArray), gl.STATIC_DRAW);
 
       this.vertStacks[i] = {
-        "primitive": gl.TRIANGLE_STRIP,
-        //"primitive": gl.LINE_STRIP,
+        "primitive": primitive1,
         "buffer": buff,
         "numPoints": outerIndexArray.length
       };
@@ -140,8 +139,7 @@ class Ring {
       gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint16Array.from(innerIndexArray), gl.STATIC_DRAW);
 
       this.vertStacks[i+vertStacks] = {
-        "primitive": gl.TRIANGLE_STRIP,
-        //"primitive": gl.LINE_STRIP,
+        "primitive": primitive1,
         "buffer": innerBuff,
         "numPoints": innerIndexArray.length
       };
@@ -153,8 +151,8 @@ class Ring {
        primitive, buffer, and numPoints */
 
     this.indices = [
-      {"primitive": gl.TRIANGLE_STRIP, "buffer": this.topIdxBuff, "numPoints": topIndex.length},
-      {"primitive": gl.TRIANGLE_STRIP, "buffer": this.botIdxBuff, "numPoints": bottomIndex.length}
+      {"primitive": primitive2, "buffer": this.topIdxBuff, "numPoints": topIndex.length},
+      {"primitive": primitive2, "buffer": this.botIdxBuff, "numPoints": bottomIndex.length}
     ];
 
     Object.keys(this.vertStacks).forEach((k) => {

@@ -9,7 +9,7 @@ class Cube {
    * @param {vec3}   col1   color #1 to use
    * @param {vec3}   col2   color #2 to use
    */
-  constructor (gl, size, subDiv, col1, col2) {
+  constructor (gl, size, subDiv, primitive1, col1, col2) {
 
     /* if colors are undefined, generate random colors */
     if (typeof col1 === "undefined") col1 = vec3.fromValues(Math.random(), Math.random(), Math.random());
@@ -108,8 +108,7 @@ class Cube {
           gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Uint16Array.from(faceSquareIndex), gl.STATIC_DRAW);
 
           this.indices.push({
-            //"primitive": gl.TRIANGLE_STRIP,
-            "primitive": gl.LINE_STRIP,
+            "primitive": primitive1,
             "buffer": faceIdxBuff,
             "numPoints": faceSquareIndex.length
           });
