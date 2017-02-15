@@ -19,5 +19,5 @@ Put your name next to the one you're working on.
 - [ ] Fix Ring's minimum vert stack collapse
 - [ ] Check line 58 of cube to make sure two faces aren't generated at 0 degree rotation
 - [x] Fix random lines in recursive sphere
-- [ ] Investigate why inner walls overlap outer walls on ring and torus (Maybe order rendred matters?)
+- [ ] Investigate why inner walls overlap outer walls on ring and torus (Maybe order rendered matters?)
 - [ ] If everything is done, insert a toggle for wireframe mode
