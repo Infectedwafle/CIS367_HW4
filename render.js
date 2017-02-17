@@ -162,7 +162,8 @@ function createObject() {
       break;
     case 4:
       recursion = document.getElementById('sphere-recursion').valueAsNumber;
-      obj = new RecursiveSphere(gl, recursion, primitive1);
+      radiusBottom = document.getElementById('recursive-sphere-radius').valueAsNumber;
+      obj = new RecursiveSphere(gl, radiusBottom, recursion, primitive1);
       break;
     case 5:
       radius = document.getElementById('torus-radius').valueAsNumber;

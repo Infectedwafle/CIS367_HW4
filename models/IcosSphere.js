@@ -91,6 +91,7 @@ class RecursiveSphere {
   }
 
   subDivide(model, recursionLevel) {
+    console.log(recursionLevel, model);
     if(recursionLevel === 0) {
       return model;
     }
@@ -159,10 +160,13 @@ class RecursiveSphere {
       newFaces.push([ai, bi, ci])
     }
     
-    model = subDivide({
+    recursionLevel--;
+    let newModel = {
       faces: newFaces,
       vertices: newVertices
-    }, recursionLevel--);
+    };
+
+    return this.subDivide(newModel, recursionLevel);
   }
 
   getMidPoint(a, b, midPoints) {
