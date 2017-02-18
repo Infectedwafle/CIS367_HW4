@@ -11,6 +11,7 @@
   <script src="models/TruncCone.js"></script>
   <script src="models/Cube.js"></script>
   <script src="models/Sphere.js"></script>
+  <script src="models/IcoSphere.js"></script>
   <script src="models/RecursiveSphere2.js"></script>
   <script src="models/Ring.js"></script>
   <script src="models/Torus.js"></script>
@@ -41,6 +42,7 @@
     <option value="4">Recursive Sphere</option>
     <option value="5">Torus</option>
     <option value="6">Ring</option>
+    <option value="7">Icosphere</option>
   </select>
 
   <button id="insert">Insert</button>
@@ -76,15 +78,15 @@
     Sphere parameters:
       <ul>
         <li>Radius 0.2 <input id="sphere-radius" class="slider" type="range" min="0.2" max="0.9" step="0.05" value="0.3"> 0.9 -- <span id="sphere-radius-value"></span></li>
-        <li>Latitude Lines 15 <input id="sphere-lat" class="slider" type="range" min="15" max="100" step="1" value="15"> 100 -- <span id="sphere-lat-value"></span></li>
-        <li>Longitude Lines 15 <input id="sphere-long" class="slider" type="range" min="15" max="100" step="1" value="15"> 100 -- <span id="sphere-long-value"></span></li>
+        <li>Latitude Lines 2 <input id="sphere-lat" class="slider" type="range" min="2" max="100" step="1" value="15"> 100 -- <span id="sphere-lat-value"></span></li>
+        <li>Longitude Lines 2 <input id="sphere-long" class="slider" type="range" min="2" max="100" step="1" value="15"> 100 -- <span id="sphere-long-value"></span></li>
       </ul>
   </div>
   <div class="param-group" hidden>
     Recursive Sphere parameters:
       <ul>
         <li>Radius 0.2 <input id="recursive-sphere-radius" class="slider" type="range" min="0.2" max="0.9" step="0.05" value="0.3"> 0.9 -- <span id="recursive-sphere-radius-value"></span></li>
-        <li>RecursionLevel 0 <input id="sphere-recursion" class="slider" type="range" min="0.0" max="7.0" step="1" value="0"> 7 -- <span id="sphere-recursion-value"></span></li>
+        <li>RecursionLevel 0 <input id="sphere-recursion" class="slider" type="range" min="0.0" max="6.0" step="1" value="0"> 6 -- <span id="sphere-recursion-value"></span></li>
       </ul>
   </div>
   <div class="param-group" hidden>
@@ -106,6 +108,12 @@
       <li>Sub Division 6 <input id="ring-subdiv" class="slider" type="range" min="6" max="100" step="1" value="6"> 100 -- <span id="ring-subdiv-value"></span></li>
     </ul>
   </div>
+  <div class="param-group" hidden>
+    Icosphere parameters:
+      <ul>
+        <li>RecursionLevel 0 <input id="icos-recursion" class="slider" type="range" min="0.0" max="6.0" step="1" value="0"> 6 -- <span id="icos-recursion-value"></span></li>
+      </ul>
+  </div>
   <div>
     <label>
       Axis of rotation:
@@ -114,35 +122,12 @@
       <input type="radio" name="rotateGroup" value="rotz"> Z
     </label>
   </div>
-  <div style='display: inline-flex'>    
-    <label>
-      Primitive1:
-        <ul>
-          <li><input type="radio" name="primitiveGroup1" value="POINTS" checked> POINTS</li>
-          <li><input type="radio" name="primitiveGroup1" value="LINE"> LINE</li>
-          <li><input type="radio" name="primitiveGroup1" value="LINE_STRIP"> LINE_STRIP</li>
-          <li><input type="radio" name="primitiveGroup1" value="LINE_LOOP"> LINE_LOOP</li>
-          <li><input type="radio" name="primitiveGroup1" value="TRIANGLES"> TRIANGLE</li>
-          <li><input type="radio" name="primitiveGroup1" value="TRIANGLE_STRIP"> TRIANGLE_STRIP</li>
-          <li><input type="radio" name="primitiveGroup1" value="TRIANGLE_FAN"> TRIANGLE_FAN</li>
-        </ul>
-    </label>
-     <label>
-      Primitive2:
-        <ul>
-          <li><input type="radio" name="primitiveGroup2" value="POINTS" checked> POINTS</li>
-          <li><input type="radio" name="primitiveGroup2" value="LINE"> LINE</li>
-          <li><input type="radio" name="primitiveGroup2" value="LINE_STRIP"> LINE_STRIP</li>
-          <li><input type="radio" name="primitiveGroup2" value="LINE_LOOP"> LINE_LOOP</li>
-          <li><input type="radio" name="primitiveGroup2" value="TRIANGLES"> TRIANGLE</li>
-          <li><input type="radio" name="primitiveGroup2" value="TRIANGLE_STRIP"> TRIANGLE_STRIP</li>
-          <li><input type="radio" name="primitiveGroup2" value="TRIANGLE_FAN"> TRIANGLE_FAN</li>
-        </ul>
-    </label>
-  </div>
   <div>
     <button id="rotate">
       Rotate
+    </button>
+    <button id="wireframe">
+      Wireframe
     </button>
   </div>
 </div>

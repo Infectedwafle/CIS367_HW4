@@ -8,6 +8,7 @@ var currRotationAxis = "rotx";
 var primitive1 = null;
 var primitive2 = null;
 var rotate = true;
+var wireframe = false;
 let posAttr, colAttr, modelUnif;
 var gl;
 let obj;
@@ -29,15 +30,8 @@ function main() {
     r.addEventListener('click', rbClicked);
   }
 
-  let primitiveGroup1 = document.getElementsByName("primitiveGroup1");
-  for (let r of primitiveGroup1) {
-    r.addEventListener('click', p1bClicked);
-  }
-
-  let primitiveGroup2 = document.getElementsByName("primitiveGroup2");
-  for (let r of primitiveGroup2) {
-    r.addEventListener('click', p2bClicked);
-  }
+  let wireframeButton = document.getElementById("wireframe");
+  wireframeButton.addEventListener('click', wfbClicked);
 
   /* setup click listener for th "rotate" button */
   let rotateButton = document.getElementById("rotate");
@@ -139,7 +133,7 @@ function createObject() {
       radiusBottom = document.getElementById("cone-radius").valueAsNumber;
       subDiv = document.getElementById("cone-subdiv").valueAsNumber;
       vertStacks = document.getElementById("vert-stacks").valueAsNumber;
-      obj = new Cone(gl, radiusBottom, height, subDiv, vertStacks, primitive1, primitive2);
+      obj = new Cone(gl, radiusBottom, height, subDiv, vertStacks, wireframe);
       break;
     case 1:
       height = document.getElementById("trunc-cone-height").valueAsNumber;
@@ -147,30 +141,30 @@ function createObject() {
       radiusTop = document.getElementById("trunc-cone-radius-top").valueAsNumber;
       subDiv = document.getElementById("trunc-cone-subdiv").valueAsNumber;
       vertStacks = document.getElementById("trunc-cone-stacks").valueAsNumber;
-      obj = new TruncCone(gl, radiusBottom, radiusTop, height, subDiv, vertStacks, primitive1, primitive2);
+      obj = new TruncCone(gl, radiusBottom, radiusTop, height, subDiv, vertStacks, wireframe);
       break;
     case 2:
       size = document.getElementById("cube-size").valueAsNumber;
       subDiv = document.getElementById("cube-subdiv").valueAsNumber;
-      obj = new Cube(gl, size, subDiv, primitive1);
+      obj = new Cube(gl, size, subDiv, wireframe);
       break;
     case 3:
       radiusBottom = document.getElementById("sphere-radius").valueAsNumber;
       latLines = document.getElementById("sphere-lat").valueAsNumber;
       longLines = document.getElementById("sphere-long").valueAsNumber;
-      obj = new Sphere(gl, radiusBottom, latLines, longLines, primitive1);
+      obj = new Sphere(gl, radiusBottom, latLines, longLines, wireframe);
       break;
     case 4:
       recursion = document.getElementById('sphere-recursion').valueAsNumber;
       radiusBottom = document.getElementById('recursive-sphere-radius').valueAsNumber;
-      obj = new RecursiveSphere(gl, radiusBottom, recursion, primitive1);
+      obj = new RecursiveSphere(gl, radiusBottom, recursion, wireframe);
       break;
     case 5:
       radius = document.getElementById('torus-radius').valueAsNumber;
       tubeRadius = document.getElementById('torus-tube-radius').valueAsNumber;
       vertStacks = document.getElementById('torus-longitude-lines').valueAsNumber;
       subDiv = document.getElementById('torus-subdiv').valueAsNumber;
-      obj = new Torus(gl, radius, tubeRadius, vertStacks, subDiv, primitive1, primitive2);
+      obj = new Torus(gl, radius, tubeRadius, vertStacks, subDiv, wireframe);
       break;
     case 6:
       innerRadius = document.getElementById('ring-inner-radius').valueAsNumber;
@@ -178,7 +172,12 @@ function createObject() {
       height = document.getElementById('ring-height').valueAsNumber;
       vertStacks = document.getElementById('ring-vertical-stacks').valueAsNumber;
       subDiv = document.getElementById('ring-subdiv').valueAsNumber;
-      obj = new Ring(gl, innerRadius, outerRadius, height, vertStacks, subDiv, primitive1, primitive2);
+      obj = new Ring(gl, innerRadius, outerRadius, height, vertStacks, subDiv, wireframe);
+      break;
+    case 7:
+      recursion = document.getElementById('icos-recursion').valueAsNumber;
+      console.log(recursion);
+      obj = new Icosphere(gl, recursion, wireframe);
       break;
   }
 }
@@ -198,75 +197,15 @@ function menuSelected(ev) {
   paramGroup[currSelection].hidden = true;
   paramGroup[sel].hidden = false;
   currSelection = sel;
-
-  let primitiveGroup1 = document.getElementsByName("primitiveGroup1");
-  for (let r of primitiveGroup1) {
-    r.addEventListener('click', p1bClicked);
-  }
-
-  let primitiveGroup2 = document.getElementsByName("primitiveGroup2");
-  for (let r of primitiveGroup2) {
-    r.addEventListener('click', p2bClicked);
-  }
 }
 
 function rbClicked(ev) {
   currRotationAxis = ev.currentTarget.value;
 }
 
-function p1bClicked(ev) {
-  let value = ev.currentTarget.value;
-  switch(value) {
-    case "POINTS":
-      primitive1 = gl.POINTS;
-      break;
-    case "LINES":
-      primitive1 = gl.LINES;
-      break;
-    case "LINE_STRIP":
-      primitive1 = gl.LINE_STRIP;
-      break;
-    case "LINE_LOOP":
-      primitive1 = gl.LINE_LOOP;
-      break;
-    case "TRIANGLES":
-      primitive1 = gl.TRIANGLES;
-      break;
-    case "TRIANGLE_STRIP":
-      primitive1 = gl.TRIANGLE_STRIP;
-      break;
-    case "TRIANGLE_FAN":
-      primitive1 = gl.TRIANGLE_FAN;
-      break;
-  }
-}
-
-function p2bClicked(ev) {
-  let value = ev.currentTarget.value;
-  
-  switch(value) {
-    case "POINTS":
-      primitive2 = gl.POINTS;
-      break;
-    case "LINES":
-      primitive2 = gl.LINES;
-      break;
-    case "LINE_STRIP":
-      primitive2 = gl.LINE_STRIP;
-      break;
-    case "LINE_LOOP":
-      primitive2 = gl.LINE_LOOP;
-      break;
-    case "TRIANGLES":
-      primitive2 = gl.TRIANGLES;
-      break;
-    case "TRIANGLE_STRIP":
-      primitive2 = gl.TRIANGLE_STRIP;
-      break;
-    case "TRIANGLE_FAN":
-      primitive2 = gl.TRIANGLE_FAN;
-      break;
-  }
+function wfbClicked(ev) {
+  wireframe = !wireframe;
+  createObject();
 }
 
 function sliderSlid(ev) {
