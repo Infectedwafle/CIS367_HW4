@@ -59,8 +59,8 @@ function main() {
     /* put all one-time initialization logic here */
     gl.useProgram (prog);
     gl.clearColor (0, 0, 0, 1);
-    gl.enable(gl.CULL_FACE);
-    gl.cullFace(gl.BACK);
+    //gl.enable(gl.CULL_FACE);
+    //gl.cullFace(gl.BACK);
     gl.enable (gl.DEPTH_TEST);
 
     primitive1 = gl.POINTS;
