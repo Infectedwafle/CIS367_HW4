@@ -62,10 +62,10 @@ class Ring {
     // Generate top of ring
     let topIndex = [];
     for(let i = 0; i < subDiv*2; i=i+2) {
-      topIndex.push(i+1,i);
+      topIndex.push(i,i+1);
     }
 
-    topIndex.push(1,0);
+    topIndex.push(0,1);
 
     this.topIdxBuff = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.topIdxBuff);
@@ -78,10 +78,10 @@ class Ring {
     let end = (subDiv*2) * vertStacks;
     let start = end - (subDiv*2);
     for(let i = start; i < end; i=i+2) {
-      bottomIndex.push(i,i+1);
+      bottomIndex.push(i+1,i);
     }
 
-    bottomIndex.push(start,start+1);
+    bottomIndex.push(start+1,start);
 
     this.botIdxBuff = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.botIdxBuff);
@@ -96,21 +96,20 @@ class Ring {
       // Generate outer side
       let outerIndexArray = [];
 
-      let outerStart = (2 * subDiv * i);
-      let outerEnd = outerStart + (subDiv * 2);
+      let outerStart = (2 * subDiv * (i+1)) - 2;
+      let outerEnd = (2 * subDiv * i);
 
-      for (let k = outerStart; k < outerEnd-2; k=k+2) {
+      for (let k = outerStart; k > outerEnd; k=k-2) {
         outerIndexArray.push(k);
         outerIndexArray.push((subDiv*2) + k);
-        outerIndexArray.push(k+2);
-        outerIndexArray.push((subDiv*2) + k+2);
+        outerIndexArray.push(k-2);
+        outerIndexArray.push((subDiv*2) + k-2);
       }
 
-
-      outerIndexArray.push(outerStart + (subDiv*2-2));
-      outerIndexArray.push(outerEnd + (subDiv*2-2));
+      outerIndexArray.push(outerEnd);
+      outerIndexArray.push(outerEnd + (subDiv*2));
       outerIndexArray.push(outerStart);
-      outerIndexArray.push(outerStart+(subDiv*2));
+      outerIndexArray.push(outerStart + (subDiv*2));
 
       let buff = gl.createBuffer();
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buff);
@@ -126,20 +125,20 @@ class Ring {
       // Generate inner side
       let innerIndexArray = [];
 
-      let innerStart = (2 * subDiv * (i + 1)) - 1;
-      let innerEnd = (2 * subDiv * i) + 1;
 
-      for(let k = innerStart; k > innerEnd; k=k-2) {
+      let innerStart = (2 * subDiv * i) + 1;
+      let innerEnd = (2 * subDiv * (i+1)) - 1;
+
+      for(let k = innerStart; k < innerEnd; k=k+2) {
         innerIndexArray.push(k);
         innerIndexArray.push((subDiv*2) + k);
-        innerIndexArray.push(k-2);
-        innerIndexArray.push((subDiv*2) + k-2);
+        innerIndexArray.push(k+2);
+        innerIndexArray.push((subDiv*2) + k+2);
       }
 
-      innerIndexArray.push(innerEnd);
-      innerIndexArray.push(innerEnd + (subDiv*2));
       innerIndexArray.push(innerStart);
       innerIndexArray.push(innerStart + (subDiv*2));
+
 
       let innerBuff = gl.createBuffer();
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, innerBuff);
